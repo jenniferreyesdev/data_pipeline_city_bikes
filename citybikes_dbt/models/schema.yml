@@ -1,0 +1,35 @@
+version: 2
+
+sources:
+  - name: citybikes
+    database: "{{ env_var('DESTINATION__POSTGRES__CREDENTIALS__DATABASE', 'citybikes') }}"
+    schema: "citybikes"  # Changed from "public" to "citybikes"
+    tables:
+      - name: station_data
+      - name: coverage_analysis
+
+models:
+  - name: stg_stations
+    description: "Staged bike station data"
+    columns:
+      - name: station_id
+        description: "Primary key for the station"
+        tests:
+          - unique
+          - not_null
+      - name: station_name
+        description: "Name of the station"
+      - name: latitude
+        description: "Station latitude coordinate"
+      - name: longitude
+        description: "Station longitude coordinate"
+      - name: free_bikes
+        description: "Number of available bikes"
+      - name: empty_slots
+        description: "Number of empty docking slots"
+      - name: total_capacity
+        description: "Total capacity of the station"
+      - name: _extracted_at
+        description: "Timestamp of data extraction"
+      - name: network_id
+        description: "ID of the bike network"
